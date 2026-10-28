@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6f2">
+    <meta name="description" content="TaskFlow — organize your work, track deadlines, and build better habits.">
+    <title>TaskFlow — Your Productivity Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a href="#" class="brand">
+                <span class="brand-mark">✓</span>
+                <span>taskflow<span class="brand-dot">.</span></span>
+            </a>
+
+            <div class="workspace-label">WORKSPACE</div>
+            <nav class="side-nav" aria-label="Main navigation">
+                <button class="nav-link active" data-view="All">
+                    <span>▦</span> Overview
+                </button>
+                <button class="nav-link" data-view="Active">
+                    <span>◷</span> My tasks
+                    <span class="nav-count" id="sidebar-active">0</span>
+                </button>
+                <button class="nav-link" data-view="Upcoming">
+                    <span>▣</span> Upcoming
+                </button>
+                <button class="nav-link" data-view="Completed">
+                    <span>✓</span> Completed
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="focus-card">
+                    <span class="focus-spark">✳</span>
+                    <h3>Small steps.</h3>
+                    <h3>Big progress.</h3>
+                    <p>Stay consistent and make every day count.</p>
+                    <div class="focus-line"><span></span></div>
+                </div>
+                <div class="profile">
+                    <div class="avatar">TF</div>
+                    <div>
+                        <strong>My Workspace</strong>
+                        <span>Personal planner</span>
+                    </div>
+                    <span class="profile-dots">•••</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-title">Overview</strong></div>
+                <div class="topbar-actions">
+                    <label class="global-search">
+                        <span>⌕</span>
+                        <input id="search-input" type="search" placeholder="Search tasks..." aria-label="Search tasks">
+                        <kbd> / </kbd>
+                    </label>
+                    <button id="header-add-button" class="button button-dark">
+                        <span>＋</span> New task
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard">
+                <section class="welcome-row">
+                    <div class="welcome-copy">
+                        <div class="eyebrow"><span class="live-dot"></span> YOUR PERSONAL WORKSPACE</div>
+                        <h1 id="page-title">Good things take <span>focus.</span></h1>
+                        <p>Make space for what matters. One task at a time.</p>
+                    </div>
+                    <div class="today-pill">
+                        <span class="calendar-symbol">▦</span>
+                        <div><span>TODAY</span><strong id="today-date">Loading date...</strong></div>
+                    </div>
+                </section>
+
+                <section class="stats-grid" aria-label="Task statistics">
+                    <article class="stat-card stat-total">
+                        <div class="stat-top"><span>Total tasks</span><span class="stat-icon">▤</span></div>
+                        <div class="stat-bottom"><strong id="total-count">0</strong><span class="stat-caption">In your workspace</span></div>
+                        <div class="stat-decoration decoration-total">↗</div>
+                    </article>
+                    <article class="stat-card stat-active">
+                        <div class="stat-top"><span>In progress</span><span class="stat-icon">◷</span></div>
+                        <div class="stat-bottom"><strong id="active-count">0</strong><span class="stat-caption">Ready for your focus</span></div>
+                        <div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    </article>
+                    <article class="stat-card stat-completed">
+                        <div class="stat-top"><span>Completed</span><span class="stat-icon">✓</span></div>
+                        <div class="stat-bottom"><strong id="completed-count">0</strong><span class="stat-caption">Wins worth celebrating</span></div>
+                        <div class="stat-decoration decoration-check">✓</div>
+                    </article>
+                    <article class="stat-card stat-progress">
+                        <div class="stat-top"><span>Completion rate</span><span class="stat-icon">◉</span></div>
+                        <div class="rate-row"><strong id="completion-rate">0%</strong><span class="rate-note">overall</span></div>
+                        <div class="progress-track"><span id="completion-bar"></span></div>
+                        <span class="stat-caption">Keep the momentum going</span>
+                    </article>
+                </section>
+
+                <section class="content-grid">
+                    <div class="task-panel panel">
+                        <div class="panel-heading">
+                            <div>
+                                <div class="section-kicker">YOUR WORKLOAD</div>
+                                <h2 id="list-heading">My tasks <span class="heading-count" id="visible-count">0</span></h2>
+                                <p>Stay organized. Keep moving forward.</p>
+                            </div>
+                            <button id="panel-add-button" class="button button-green">＋ Add task</button>
+                        </div>
+
+                        <form id="task-form" class="task-form hidden">
+                            <div class="form-heading">
+                                <div><span class="section-kicker">TASK DETAILS</span><h3 id="form-heading">Create a task</h3></div>
+                                <button type="button" id="close-form-button" class="close-button" aria-label="Close form">×</button>
+                            </div>
+                            <label for="task-title">Task title</label>
+                            <input id="task-title" type="text" maxlength="120" placeholder="What needs to get done?" required>
+
+                            <label for="task-description">Description</label>
+                            <textarea id="task-description" rows="2" maxlength="500" placeholder="Add a few details (optional)"></textarea>
+
+                            <div class="form-row">
+                                <div><label for="task-category">Category</label>
+                                    <select id="task-category">
+                                        <option>Personal</option>
+                                        <option>Work</option>
+                                        <option>Study</option>
+                                        <option>Health</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div><label for="task-priority">Priority</label>
+                                    <select id="task-priority">
+                                        <option>Low</option>
+                                        <option selected>Medium</option>
+                                        <option>High</option>
+                                    </select>
+                                </div>
+                                <div><label for="task-deadline">Due date</label>
+                                    <input id="task-deadline" type="date">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-button" class="button button-light">Cancel</button>
+                                <button type="submit" id="save-button" class="button button-green">Save task ↗</button>
+                            </div>
+                        </form>
+
+                        <div class="task-toolbar">
+                            <div class="filter-tabs" role="group" aria-label="Filter tasks">
+                                <button class="filter-button active" data-filter="All">All tasks</button>
+                                <button class="filter-button" data-filter="Active">In progress</button>
+                                <button class="filter-button" data-filter="Completed">Completed</button>
+                            </div>
+                            <select id="priority-filter" class="priority-filter" aria-label="Filter by priority">
+                                <option value="All">All priorities</option>
+                                <option value="High">High priority</option>
+                                <option value="Medium">Medium priority</option>
+                                <option value="Low">Low priority</option>
+                            </select>
+                        </div>
+
+                        <div id="task-list" class="task-list"></div>
+                        <div id="empty-state" class="empty-state">
+                            <div class="empty-art">✓</div>
+                            <h3>No tasks here yet</h3>
+                            <p>Add a task and give your ideas a place to start.</p>
+                            <button id="empty-add-button" class="button button-green">Create your first task</button>
+                        </div>
+
+                        <div class="panel-footer">
+                            <span id="task-summary">0 tasks</span>
+                            <button id="clear-completed-button" class="text-button">Clear completed</button>
+                        </div>
+                    </div>
+
+                    <aside class="right-column">
+                        <section class="panel weekly-panel">
+                            <div class="side-panel-heading">
+                                <div><div class="section-kicker">YOUR CONSISTENCY</div><h2>This week</h2></div>
+                                <span class="week-badge">7 DAYS</span>
+                            </div>
+                            <p class="panel-description">Tasks completed each day.</p>
+                            <div id="weekly-chart" class="weekly-chart" aria-label="Tasks completed over the last seven days"></div>
+                            <div class="weekly-legend"><span><i></i> Completed tasks</span><strong id="weekly-total">0 this week</strong></div>
+                        </section>
+
+                        <section class="panel upcoming-panel">
+                            <div class="side-panel-heading">
+                                <div><div class="section-kicker">PLAN AHEAD</div><h2>Upcoming</h2></div>
+                                <button class="small-link" data-view="Upcoming">View all ↗</button>
+                            </div>
+                            <p class="panel-description">Keep an eye on what's next.</p>
+                            <div id="upcoming-list" class="upcoming-list"></div>
+                        </section>
+
+                        <section class="quote-card">
+                            <span class="quote-mark">“</span>
+                            <p>You don't have to do it all today. Just do the next right thing.</p>
+                            <span class="quote-credit">A LITTLE REMINDER</span>
+                            <div class="quote-orbit orbit-one"></div>
+                            <div class="quote-orbit orbit-two"></div>
+                        </section>
+                    </aside>
+                </section>
+
+                <footer class="app-footer">
+                    <span><span class="footer-dot"></span> Your workspace, your pace.</span>
+                    <span>Made with care · TaskFlow</span>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
